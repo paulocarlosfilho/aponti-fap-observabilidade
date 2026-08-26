@@ -20,8 +20,8 @@ jobs:
         uses: LocalStack/setup-localstack@v0.2.2
         with:
           install-awslocal: false
+          auth-token: ${{ secrets.LOCALSTACK_AUTH_TOKEN }}
         env:
-          LOCALSTACK_AUTH_TOKEN: ${{ secrets.LOCALSTACK_AUTH_TOKEN }}
           LOCALSTACK_ACKNOWLEDGE_ACCOUNT_REQUIREMENT: "1"
           SERVICES: "s3,ec2"
 
