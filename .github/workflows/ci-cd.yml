@@ -1,0 +1,50 @@
+name: "Terraform LocalStack CI - aponti-desafio6"
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+  terraform-deploy:
+    name: "Terraform Init, Plan & Apply"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Sobe o LocalStack de forma limpa via Docker (sem travar por licença)
+      - name: Start LocalStack via Docker
+        run: |
+          docker run -d --name localstack -p 4566:4566 localstack/localstack:3.3.0
+          echo "Aguardando o LocalStack iniciar na porta 4566..."
+          for i in {1..30}; do
+            if curl -s http://localhost:4566/_localstack/health; then
+              echo -e "\nLocalStack pronto!"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Falha ao iniciar o LocalStack. Logs do container:"
+          docker logs localstack
+          exit 1
+        shell: bash
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: Terraform
+
+      - name: Terraform Plan
+        run: terraform plan
+        working-directory: Terraform
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+        working-directory: Terraform
