@@ -18,7 +18,7 @@ jobs:
       # Sobe o LocalStack de forma limpa via Docker (sem travar por licença)
       - name: Start LocalStack via Docker
         run: |
-          docker run -d --name localstack -p 4566:4566 -e LOCALSTACK_AUTH_TOKEN=${{ secrets.LOCALSTACK_AUTH_TOKEN }} localstack/localstack
+          docker run -d --name localstack -p 4566:4566 localstack/localstack:3.3.0
           echo "Aguardando o LocalStack iniciar na porta 4566..."
           for i in {1..30}; do
             if curl -s http://localhost:4566/_localstack/health; then
