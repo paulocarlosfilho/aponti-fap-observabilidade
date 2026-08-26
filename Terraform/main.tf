@@ -19,14 +19,14 @@ provider "aws" {
 
   endpoints {
     s3  = "http://s3.localhost.localstack.cloud:4566"
-    ec2 = "http://localhost.localhost.localstack.cloud:4566"
+    ec2 = "http://localhost:4566"
   }
 }
 
 variable "frontends" {
-  type    = map(string)
+  type = map(string)
   default = {
-    "app-desafio-final-s3" = "../api"
+    "app-desafio-final-s3" = "../Observabilidade"
   }
 }
 
@@ -73,7 +73,7 @@ resource "aws_s3_object" "frontend_files" {
       ".gif"  = "image/gif"
       ".webp" = "image/webp"
     },
-    lower(regex("\\.[^.]+$", each.value.key)),
+    try(lower(regex("\\.[^.]+$", each.value.key)), ""),
     "application/octet-stream"
   )
 
