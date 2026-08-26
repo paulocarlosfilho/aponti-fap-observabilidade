@@ -20,9 +20,8 @@ jobs:
         uses: LocalStack/setup-localstack@v0.2.2
         with:
           install-awslocal: false
-          auth-token: ${{ secrets.LOCALSTACK_AUTH_TOKEN }}
+          use-pro: false
         env:
-          LOCALSTACK_ACKNOWLEDGE_ACCOUNT_REQUIREMENT: "1"
           SERVICES: "s3,ec2"
 
       - name: Setup Terraform
