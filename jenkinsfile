@@ -15,7 +15,7 @@ pipeline {
 
         stage('SAST & Lint') {
             steps {
-                dir('api') {
+                dir('Observabilidade') {
                     sh 'npm ci'
                     sh 'npm audit --audit-level=high'
                 }
@@ -24,7 +24,7 @@ pipeline {
 
         stage('Testes Unitários') {
             steps {
-                dir('api') {
+                dir('Observabilidade') {
                     sh 'npm test'
                 }
             }
@@ -34,7 +34,8 @@ pipeline {
             steps {
                 script {
                     sh "docker login -u ${DOCKER_CREDS_USR} -p ${DOCKER_CREDS_PSW}"
-                    sh "docker build -t ${IMAGE_NAME} ./api"
+                    // Se o Dockerfile estiver direto na pasta Observabilidade, use './Observabilidade'
+                    sh "docker build -t ${IMAGE_NAME} ./Observabilidade"
                     sh "docker push ${IMAGE_NAME}"
                 }
             }
@@ -42,7 +43,7 @@ pipeline {
 
         stage('Deploy com Terraform & LocalStack') {
             steps {
-                dir('terraform') {
+                dir('Terraform') {
                     sh 'terraform init'
                     sh 'terraform apply -auto-approve'
                 }
