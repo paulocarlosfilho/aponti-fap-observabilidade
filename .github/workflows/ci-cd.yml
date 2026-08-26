@@ -15,15 +15,22 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # Sobe o LocalStack com a Action oficial e a variável de aceite exigida
-      - name: Start LocalStack
-        uses: LocalStack/setup-localstack@v0.2.2
-        with:
-          install-awslocal: false
-        env:
-          LOCALSTACK_AUTH_TOKEN: ${{ secrets.LOCALSTACK_AUTH_TOKEN }}
-          LOCALSTACK_ACKNOWLEDGE_ACCOUNT_REQUIREMENT: "1"
-          SERVICES: "s3,ec2"
+      # Sobe o LocalStack de forma limpa via Docker (sem travar por licença)
+      - name: Start LocalStack via Docker
+        run: |
+          docker run -d --name localstack -p 4566:4566 localstack/localstack:3.3.0
+          echo "Aguardando o LocalStack iniciar na porta 4566..."
+          for i in {1..30}; do
+            if curl -s http://localhost:4566/_localstack/health; then
+              echo -e "\nLocalStack pronto!"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Falha ao iniciar o LocalStack. Logs do container:"
+          docker logs localstack
+          exit 1
+        shell: bash
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -32,12 +39,12 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-        working-directory: terraform
+        working-directory: Terraform
 
       - name: Terraform Plan
         run: terraform plan
-        working-directory: terraform
+        working-directory: Terraform
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
-        working-directory: terraform
+        working-directory: Terraform
