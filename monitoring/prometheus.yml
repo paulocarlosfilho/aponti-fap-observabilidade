@@ -4,4 +4,4 @@ global:
 scrape_configs:
   - job_name: 'api-fap'
     static_configs:
-      - targets: ['host.docker.internal:3333']
+      - targets: ['host.docker.internal:3000']
