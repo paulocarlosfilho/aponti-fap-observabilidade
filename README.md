@@ -76,4 +76,5 @@ Estou me preparando de forma profissional e estruturada para conquistar oportuni
 Este repositório é uma amostra prática das minhas habilidades e dedicação. Adoro receber críticas construtivas, conselhos e dicas técnicas. Vamos bater um papo!
 
 📌 **Autor**: Paulo Carlos
+
 🔗 **LinkedIn**: https://www.linkedin.com/in/paulocarlosfilho/
