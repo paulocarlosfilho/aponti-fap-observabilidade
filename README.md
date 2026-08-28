@@ -1,6 +1,6 @@
 # aponti-fap-observabilidade 🚀 Projeto de Automação, Infraestrutura como Código e Monitoramento
 
-![CI](https://github.com/paulocarlosfilho/aponti-fap-observabilidade/actions/workflows/terraform.yml/badge.svg)
+![CI](https://github.com/paulocarlosfilho/aponti-fap-observabilidade/actions/workflows/ci-cd.yml/badge.svg)
 
 ## 📌 Sobre o Projeto
 
