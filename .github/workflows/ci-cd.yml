@@ -1,4 +1,4 @@
-name: "Terraform LocalStack CI - aponti-desafio6"
+name: "Terraform LocalStack CI - aponti-fap-observabilidade"
 
 on:
   push:
